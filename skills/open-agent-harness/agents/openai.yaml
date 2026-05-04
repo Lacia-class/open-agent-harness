@@ -1,0 +1,4 @@
+interface:
+  display_name: "Open Agent Harness"
+  short_description: "Reliable agent workflow protocols"
+  default_prompt: "Use $open-agent-harness to design and validate an artifact-backed agent workflow."

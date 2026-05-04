@@ -1,0 +1,34 @@
+name: open-agent-harness
+version: 0.1.0
+license: Apache-2.0
+skill_packages:
+  - skills/open-agent-harness
+agent_instruction_files:
+  project:
+    - AGENTS.md
+    - CLAUDE.md
+  user_templates:
+    - templates/user-level/AGENTS.md
+    - templates/user-level/CLAUDE.md
+layers:
+  core:
+    - core/collaboration-calibration.md
+    - core/reality-anchored-delivery.md
+    - core/convergent-review.md
+    - core/generalization-triage.md
+    - core/meta-recursive-design.md
+    - core/compound-interest-engineering.md
+    - core/universal-sop-engine.md
+  adapters:
+    - adapters/knowledge-source-interface.md
+    - adapters/null-adapter.md
+    - adapters/local-markdown-adapter.md
+    - adapters/mcp-knowledge-graph-adapter.md
+    - adapters/agent-runtime-adapter.md
+    - adapters/validation-adapter.md
+    - adapters/domain-sop-adapter.md
+    - adapters/user-profile-adapter.md
+    - adapters/terminology-adapter.md
+private_boundary:
+  ignored_directory: private/
+  rule: public core must not require private packs or private knowledge graphs

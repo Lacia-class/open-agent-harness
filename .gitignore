@@ -1,0 +1,15 @@
+.DS_Store
+.env
+.env.*
+*.local.md
+*.local.json
+*.local.yaml
+*.local.yml
+
+private/*
+!private/README.md
+
+node_modules/
+.venv/
+__pycache__/
+
