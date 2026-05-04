@@ -1,164 +1,89 @@
 # Open Agent Harness
 
-[![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
-[![Skill validated](https://img.shields.io/badge/skill-validated-brightgreen.svg)](skills/open-agent-harness/SKILL.md)
-[![Runtime neutral](https://img.shields.io/badge/runtime-Codex%20%7C%20Claude%20%7C%20Agents-black.svg)](#agent-runtime-support)
+[![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+[![Runtime: Codex | Claude | Any](https://img.shields.io/badge/runtime-Codex_%7C_Claude_%7C_Any-green.svg)](#agent-runtime-support)
 
 [English](README.md) | [中文](README.zh-CN.md)
 
-**Stop letting agents finish tasks that reality never accepted.**
+AI agents are great at saying "done." They're less great at actually being done — the file isn't there, the test got weakened, the app is broken, or the "result" is a summary of what should have happened.
 
-Open Agent Harness is a portable protocol pack for AI agents that need to deliver real work, not polished self-reports. It gives Codex, Claude, and other Markdown-capable agents a shared operating system for artifact-backed delivery, convergence review, anti-overfitting rule updates, and reusable SOP design.
+Open Agent Harness is a set of portable protocols that make agent work **evidence-based**. No artifact, no completion. It plugs into Codex, Claude, or any Markdown-capable agent runtime as a self-contained skill.
 
-If you have ever seen an agent say "done" while the app is broken, the file is missing, the test was weakened, or the user-visible result was never opened, install this before your next serious agent task.
+## Quick Start
 
-## Why Star This
-
-Star this repo if you want agents that:
-
-- prove completion with observable artifacts instead of vibes
-- separate real output from summaries, logs, and self-report
-- review work until issue count and evidence gaps converge
-- stop turning one lucky example into a permanent rule
-- build SOPs as state machines, not fragile click lists
-- keep private knowledge graphs, profiles, credentials, and real workflows out of public core
-- run across Codex, Claude, and other agent runtimes
-
-This is not another prompt collection. It is a small harness for making agent work harder to fake.
-
-## Install In 30 Seconds
-
-### Codex
-
-```bash
+```sh
+# Codex
 mkdir -p "$HOME/.codex/skills"
 ln -s "$(pwd)/skills/open-agent-harness" "$HOME/.codex/skills/open-agent-harness"
-```
 
-### Claude
-
-```bash
+# Claude
 mkdir -p "$HOME/.claude/skills"
 ln -s "$(pwd)/skills/open-agent-harness" "$HOME/.claude/skills/open-agent-harness"
 ```
 
-Prefer copying instead of symlinking?
+Then tell your agent:
 
-```bash
-cp -R skills/open-agent-harness "$HOME/.codex/skills/open-agent-harness"
-cp -R skills/open-agent-harness "$HOME/.claude/skills/open-agent-harness"
 ```
-
-Then invoke the skill:
-
-```text
 Use $open-agent-harness to design and validate this workflow.
 ```
 
-## What You Get
+That's it. The skill is self-contained — no dependencies, no build step.
 
-The installable skill lives at `skills/open-agent-harness/` and is self-contained:
+## The Problem
 
-```text
-skills/open-agent-harness/
-  SKILL.md
-  agents/openai.yaml
-  references/
-  scripts/release-audit.sh
-```
+Most agent frameworks optimize for *generation*. This one optimizes for *verification*.
 
-The protocols inside it cover:
+When an agent says a task is complete, these protocols ask: where's the proof? An observable artifact, an independent validation pass, a convergence check that doesn't stop after one round. The difference between "the agent said it worked" and "it actually worked" is surprisingly large, and that gap is where real productivity gets lost.
 
-| Protocol | What It Prevents |
+## What's Inside
+
+The installable skill at `skills/open-agent-harness/` contains seven protocols:
+
+| Protocol | Prevents |
 |---|---|
-| Collaboration Calibration | front-loading the user with a giant questionnaire |
-| Reality-Anchored Delivery | "done" claims without user-visible evidence |
-| Convergent Review | one-pass reviews that stop before quality stabilizes |
-| Generalization Triage | benchmark-fitted or anecdote-fitted rules |
-| Meta-Recursive Design | method design that never tests itself |
-| Compound-Interest Engineering | useful lessons disappearing after a thread ends |
-| Universal SOP Engine | brittle click lists with no state model or recovery path |
+| **Collaboration Calibration** | Agents front-loading users with 20-question surveys before doing anything |
+| **Reality-Anchored Delivery** | "Done" claims with no user-visible evidence |
+| **Convergent Review** | One-pass reviews that miss what a second pass would catch |
+| **Generalization Triage** | Rules overfitted to one lucky example |
+| **Meta-Recursive Design** | Methods that never get tested on themselves |
+| **Compound-Interest Engineering** | Hard-won lessons vanishing after a thread ends |
+| **Universal SOP Engine** | Brittle click-lists with no state model or recovery path |
 
-## The Core Principle
+## Architecture
 
-```text
-No observable artifact, no completion.
-No independent validation, no PASS.
-No adapter boundary, no public core.
+```
+core/               Portable protocol definitions
+adapters/            Bridges to runtimes, validators, domain tools
+skills/              Installable skill package (this is what you use)
+packs/               Public example packs for testing
+private/             Local-only extensions (.gitignored)
+templates/           Starter AGENTS.md / CLAUDE.md for your projects
 ```
 
-Open Agent Harness separates three layers:
-
-1. **Core protocols**: portable methods that work without private context.
-2. **Adapters**: optional bridges to runtimes, validators, knowledge sources, terminology, and domain SOP resources.
-3. **Private packs**: user-specific profiles, credentials, private knowledge graphs, and real operational workflows.
-
-That means you can open source the method without leaking the machinery behind your private work.
+The design separates three layers: **core protocols** (open, portable), **adapters** (runtime-specific glue), and **private packs** (your credentials, profiles, knowledge graphs — never committed). You open-source the method without leaking your setup.
 
 ## Agent Runtime Support
 
-The harness is runtime-neutral.
+The harness is runtime-neutral by design.
 
-- Codex installs `skills/open-agent-harness/` and may use `templates/user-level/AGENTS.md`.
-- Claude installs `skills/open-agent-harness/` and may use `templates/user-level/CLAUDE.md`.
-- Other agents can read the Markdown protocols directly.
-
-Runtime-specific orchestration belongs behind `adapters/agent-runtime-adapter.md`, not in the public core.
-
-## Repository Layout
-
-```text
-core/                       Source protocols for maintainers
-adapters/                   Source adapter interfaces for maintainers
-skills/open-agent-harness/  Installable self-contained skill package
-packs/public-example-pack/  Safe examples for testing the harness
-private/                    Local-only extension area; ignored by git except README
-templates/                  Safe user-level AGENTS.md / CLAUDE.md templates
-docs/                       Architecture and release boundary docs
-tools/                      Release and leakage audit helpers
-```
+- **Codex** — install the skill + optionally use `templates/user-level/AGENTS.md`
+- **Claude** — install the skill + optionally use `templates/user-level/CLAUDE.md`
+- **Others** — any agent that reads Markdown can consume the protocols directly
 
 ## Release Safety
 
-Before publishing changes, run:
-
-```bash
+```sh
 bash tools/release-audit.sh
-python3 /path/to/quick_validate.py skills/open-agent-harness
-```
-
-The skill also includes its own audit:
-
-```bash
 bash skills/open-agent-harness/scripts/release-audit.sh
 ```
 
-## What This Intentionally Does Not Include
+These scripts check for accidental leakage of private content before you push.
 
-- private user profiles or personal `AGENTS.md` / `CLAUDE.md`
-- API keys, tokens, session data, accounts, payment flows, or service inventories
-- proprietary course notes, private knowledge graphs, or private MCP data
-- site-specific browser SOPs for real accounts, payments, or verification flows
+## Contributing
 
-If a workflow only works because of a private graph, account ledger, or personal profile, it belongs in an adapter or private pack, not in the public kernel.
-
-## Migration From Private Harnesses
-
-If you are extracting a public version from a personal or internal harness, follow `docs/migration-from-private-harness.md`.
-
-The short version:
-
-- keep the mechanism
-- remove the private constants
-- move domain knowledge into adapters
-- move personal calibration into profile packs
-- publish safe examples, not real operational paths
-
-## Contributing And Security
-
-See `CONTRIBUTING.md` and `SECURITY.md` before proposing changes. Public contributions must keep private knowledge sources, profiles, credentials, and real operational SOPs out of the core.
+See [CONTRIBUTING.md](CONTRIBUTING.md) and [SECURITY.md](SECURITY.md). The one hard rule: no private knowledge, credentials, or real operational SOPs in the public core.
 
 ## License
 
-Apache License 2.0. See `LICENSE`.
+[Apache License 2.0](LICENSE)
 
