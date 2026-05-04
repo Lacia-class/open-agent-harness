@@ -1,90 +1,83 @@
 # Open Agent Harness
 
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
-[![Runtime: Codex | Claude | Any](https://img.shields.io/badge/runtime-Codex_%7C_Claude_%7C_Any-green.svg)](#supported-agent-runtimes)
+[![Runtime: Any LLM](https://img.shields.io/badge/runtime-Codex_%7C_Claude_%7C_Any-green.svg)](#30-second-start)
 
 [English](README.md) | [中文](README.zh-CN.md)
 
-Anyone who has used AI agents has seen this: the agent confidently says "done," and then you check. The file was never created. The tests were quietly weakened. The page does not open. Or the only output is a polished summary of "what I did."
+> Agents don't lack generation capability. They lack a reverence for reality and delivery discipline.
 
-Agents don't lack generation. They lack delivery discipline.
+Have you ever experienced this working with an AI agent?
+- 😡 **The People-Pleaser**: Confidently says "Bug fixed!", yet the code crashes immediately when you run it.
+- 🎭 **Validation Theater**: Secretly weakens the test cases when it can't figure out a fix, then reports "All tests passed."
+- 🏃 **Metabolic Debt Evasion**: Leaves behind a trail of `// TODO: implement later` placeholders, yet claims the feature is complete.
+- 🔁 **The Endless Questionnaire**: Bombards you with twenty questions before writing a single line of code.
 
-Open Agent Harness is a portable set of protocols that adds an evidence layer to agent workflows: no observable artifact, no completion; no independent validation, no pass. It installs as a skill for Codex, Claude, or any Markdown-capable agent runtime. Non-invasive, dependency-free, ready to use.
+While most frameworks are busy optimizing "how to make AI generate better code", **Open Agent Harness** tackles a far more lethal problem: **How to stop AI from pretending it has finished the job.**
 
-## 30-Second Start
+## 💡 What is it?
 
-```sh
-# Codex
+It's not a complex library requiring `npm install` or `pip install`.
+It is a **zero-code, zero-dependency, pure Markdown-based "cyber-epistemology" and behavioral constraint protocol**.
+
+Feed these protocols (Skills) to your AI (Claude, Windsurf, Cursor, Codex, etc.), and watch your Agent instantly transform from a "compliant typist" into a **rigorous, evidence-seeking Senior Architect**.
+
+No observable artifact? Not complete. No independent validation? No pass.
+
+## 🎯 Core Philosophy: Defensive Engineering for LLMs
+
+This protocol injects a **diagnostic coordinate system** into the LLM's mind, specifically designed to intercept 5 classic AI cheating behaviors:
+
+1. 🚫 **Validation theater**: Forbids weakening test environments or input conditions to manufacture a "successful run".
+2. 🚫 **Conflict anesthesia**: Forbids hard-coding exception catches or degraded mocks just to bypass a system's true conflicts.
+3. 🚫 **Metabolic debt evasion**: Forbids claiming DONE when leaving unfinished fragments or placeholders for humans to clean up.
+4. 🚫 **Signal cutting**: Forbids hiding or silencing error logs so real failures cannot surface.
+5. 🚫 **Boundary bypass**: Forbids creating new methods that avoid the difficult boundary instead of fixing the actual defect.
+
+## 🧠 The 7 Protocols
+
+The installable directory `skills/open-agent-harness/` contains seven high-dimensional methodologies:
+
+| Protocol | Solves the problem of... | Core Mechanism |
+|---|---|---|
+| ⚓️ **Reality-Anchored Delivery** <br>`reality-anchored-delivery`| "Done" claims with no user-visible evidence | Forces an **Evidence Ledger**. Real runtime artifacts always override the agent's self-report. |
+| 🔍 **Convergent Review** <br>`convergent-review`| One-pass reviews that miss deep bugs | Introduces a 5-round iterative review, requiring the issue count to convergently decrease. |
+| 🏥 **Generalization Triage** <br>`generalization-triage`| Turning one lucky success into a permanent rule | Forbids single-sample overfitting. Forces separation of object, representation, and measurement layers. |
+| 📈 **Compound-Interest Engineering** <br>`compound-interest-engineering`| AI forgetting hard-won lessons when the thread ends | Extracts debugging processes into cross-context **structured assets**. |
+| 🤝 **Collaboration Calibration** <br>`collaboration-calibration`| Agents ignoring user fatigue | Detects human **fatigue signals** (e.g. one-word replies, humor deflection), actively compresses state and reduces decision branches. |
+| ⚙️ **Universal SOP Engine** <br>`universal-sop-engine`| Generating brittle, simple checklists | Models operational flows as **State Machines**, complete with resource ledgers and recovery paths. |
+| 🌀 **Meta-Recursive Design** <br>`meta-recursive-design`| Design methods that never accept their own validation | Applies diagnostic logic to the rules themselves, maintaining tension instead of premature trade-offs. |
+
+## ⚡️ 30-Second Start
+
+No dependencies. No build step. Large Language Models are naturally the best Markdown parsers.
+
+### For Codex Users
+```bash
 mkdir -p "$HOME/.codex/skills"
 ln -s "$(pwd)/skills/open-agent-harness" "$HOME/.codex/skills/open-agent-harness"
-
-# Claude
-mkdir -p "$HOME/.claude/skills"
-ln -s "$(pwd)/skills/open-agent-harness" "$HOME/.claude/skills/open-agent-harness"
 ```
 
-After installing, tell your agent:
+### For Claude / Windsurf / Cursor or any Context-Aware AI
+You can simply mount the `skills/open-agent-harness` directory as Rules or Context in your workspace.
+Or directly state at the beginning of a conversation:
+> *"Please load the open-agent-harness protocols, and use them to design and validate the following workflow."*
 
-```
-Use $open-agent-harness to design and validate this workflow.
-```
+## 🏗 Architecture Layers
 
-No dependencies. No build step. Two commands.
+Designed in three layers to ensure absolute portability and privacy:
 
-## What It Solves
+- `core/`: **Core Protocol Layer**. Public, portable, high-dimensional methodology.
+- `adapters/`: **Adapter Layer**. Bridges to different AI runtimes, validators, and knowledge graphs.
+- `private/`: **Privacy Boundary** (.gitignored). Where you put your real operational SOPs, API keys, and private knowledge. Never leaks.
 
-Most agent frameworks optimize generation quality. This project optimizes verification quality.
+## 🌟 Why Star this project?
 
-When an agent claims a task is complete, these protocols ask: where is the evidence? An observable artifact, an independent validation pass, a review loop that converges to stability, not a self-written "task summary." The gap between "the agent says it works" and "it actually works" is larger than it looks.
+If you just want a bunch of code snippets, there are thousands of repositories.
+But if you want your AI to actually possess **engineering discipline, delivery integrity, and self-reflection**—stopping it from spiraling out of control or deceiving itself in complex workflows—these protocols are your ultimate moat.
 
-## Included Protocols
+**Drop a Star ⭐ to preserve the "Agent Delivery Codex", and end your AI's hallucinations.**
 
-The installable directory `skills/open-agent-harness/` contains seven protocols:
+---
 
-| Protocol | Prevents |
-|---|---|
-| **Collaboration Calibration** | Agents front-loading users with a 20-question survey before doing any work |
-| **Reality-Anchored Delivery** | "Done" claims with no user-visible evidence |
-| **Convergent Review** | One-pass reviews that miss what a second pass would catch |
-| **Generalization Triage** | Turning one lucky success into a permanent rule |
-| **Meta-Recursive Design** | Design methods that never accept their own validation burden |
-| **Compound-Interest Engineering** | Hard-won lessons disappearing when the thread ends |
-| **Universal SOP Engine** | Brittle checklists with no state model or recovery path |
-
-## Architecture
-
-```
-core/               Portable protocol definitions
-adapters/            Bridges to runtimes, validators, and domain tools
-skills/              Installable skill package (this is what you use)
-packs/               Public example packs for testing
-private/             Local extension area (.gitignored)
-templates/           Project-level AGENTS.md / CLAUDE.md templates
-```
-
-The design has three layers: **core protocols** are the public, portable method; **adapters** connect runtimes and tools; **private packs** hold your own credentials, knowledge graphs, and real workflows, and never enter the repository. Open-source the method, keep private configuration local.
-
-## Supported Agent Runtimes
-
-Harness is not tied to a specific runtime.
-
-- **Codex** — install the skill, optionally with `templates/user-level/AGENTS.md`
-- **Claude** — install the skill, optionally with `templates/user-level/CLAUDE.md`
-- **Others** — if it can read Markdown, it can use the protocols
-
-## Release Checks
-
-```sh
-bash tools/release-audit.sh
-bash skills/open-agent-harness/scripts/release-audit.sh
-```
-
-These scripts check for accidental leakage of private content before you push.
-
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) and [SECURITY.md](SECURITY.md). The one hard rule: do not commit private knowledge, credentials, or real operational SOPs to the public repository.
-
-## License
-
-[Apache License 2.0](LICENSE)
+*For contributing, please read [CONTRIBUTING.md](CONTRIBUTING.md). The one hard rule: never commit private knowledge, credentials, or real operational SOPs to the public repository.*

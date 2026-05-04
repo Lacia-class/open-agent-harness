@@ -1,90 +1,84 @@
 # Open Agent Harness
 
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
-[![Runtime: Codex | Claude | Any](https://img.shields.io/badge/runtime-Codex_%7C_Claude_%7C_Any-green.svg)](#支持的-agent-运行时)
+[![Runtime: Any LLM](https://img.shields.io/badge/runtime-Codex_%7C_Claude_%7C_Any-green.svg)](#极简接入)
 
 [English](README.md) | [中文](README.zh-CN.md)
 
-用过 AI agent 的人大概都有过这种体验：agent 信誓旦旦地说"已完成"，你一看——文件没生成、测试被偷偷降级、页面打不开，或者它只是写了一段关于"我做了什么"的漂亮总结。
+> Agent 不缺生成能力，缺的是对现实的敬畏和交付纪律。
 
-Agent 不缺生成能力，缺的是交付纪律。
+你是否也厌倦了这样的 AI Agent 协作体验：
+- 😡 **讨好型忽悠**：信誓旦旦说“已修复”，你一跑代码直接崩溃。
+- 🎭 **验证剧场 (Validation Theater)**：遇到搞不定的 Bug，AI 偷偷把测试用例改简单了，然后报告“测试通过”。
+- 🏃 **逃避代谢债务 (Metabolic debt evasion)**：留下一堆 `// TODO: implement later` 的占位符，却告诉你任务已完成。
+- 🔁 **无意义的连环问卷**：还没开始干活，先给你甩来二十个问题，让你精疲力尽。
 
-Open Agent Harness 是一组可移植的协议，给 agent 的工作流加上举证机制：没有可观测的产物就不算完成，没有独立验证就不算通过。它以 skill 的形式装进 Codex、Claude 或任何能读 Markdown 的 agent 运行时，不侵入、不依赖、即装即用。
+目前主流的框架都在卷“如何让 AI 生成得更好”，而 **Open Agent Harness** 解决的是另一个致命问题：**如何防止 AI 假装自己完成了任务。**
 
-## 30 秒上手
+## 💡 这是什么？
 
-```sh
-# Codex
+它不是一个需要 `npm install` 或 `pip install` 的复杂代码库。
+它是一组**零代码、零依赖、纯 Markdown 编写的“赛博认识论”与行为约束协议**。
+
+只要把这些协议（Skills）喂给你的 AI（Claude、Windsurf、Cursor、Codex 等），你的 Agent 就会瞬间从一个“只会打字的顺从助手”，蜕变成一个**严谨、求证、拿结果说话的资深架构师**。
+
+没有可观测的产物就不算完成，没有独立验证就不算通过。
+
+## 🎯 核心精髓：为大模型注入防御性思维
+
+本协议内置了一套专为大模型设计的**诊断坐标系**，精准拦截 AI 的 5 种典型作弊行为：
+
+1. 🚫 **验证剧场 (Validation theater)**：严禁通过弱化测试环境、输入条件来制造“成功运行”的假象。
+2. 🚫 **冲突麻醉 (Conflict anesthesia)**：严禁强行 Hard-code 异常捕获或降级 Mock，掩盖系统真实的冲突。
+3. 🚫 **逃避代谢债务 (Metabolic debt evasion)**：严禁把未完成的碎片扔给人类接盘，自我标榜 DONE。
+4. 🚫 **信号切断 (Signal cutting)**：严禁隐藏或静默报错日志。
+5. 🚫 **边界绕过 (Boundary bypass)**：严禁通过回避核心难点来假装解决问题。
+
+## 🧠 七大核心协议 (The 7 Protocols)
+
+安装目录 `skills/open-agent-harness/` 包含了 7 个高维度的方法论：
+
+| 协议 | 解决的痛点 | 核心机制 |
+|---|---|---|
+| ⚓️ **现实锚定交付** <br>`reality-anchored-delivery`| 说“完成了”但拿不出用户可见的证据 | 强制建立**证据账本**，实际运行产物优先于 Agent 的自我报告。 |
+| 🔍 **收敛式审查** <br>`convergent-review`| 代码只看一遍就过，深层 Bug 全漏掉 | 引入五轮迭代审查，强制要求 Bug 数量递减收敛。 |
+| 🏥 **泛化分诊** <br>`generalization-triage`| 靠一个恰好跑通的案例就写成死规则 | 严禁单样本过拟合，强制区分物理层、表现层与测量层。 |
+| 📈 **复利工程** <br>`compound-interest-engineering`| 踩过的坑，对话一结束 AI 就全忘了 | 将纠错过程提炼为可跨上下文复用的**结构化资产**。 |
+| 🤝 **协作校准** <br>`collaboration-calibration`| AI 喋喋不休，无视人类的疲劳状态 | 敏锐捕捉人类的**疲劳信号**（如单字回复、幽默回避），主动压缩状态并减少决策分支。 |
+| ⚙️ **通用 SOP 引擎** <br>`universal-sop-engine`| 生成脆弱的“流水账式”点击清单 | 强制将操作流建模为**状态机**，包含资源账本与恢复路径。 |
+| 🌀 **元递归设计** <br>`meta-recursive-design`| 设计方法论的方法论本身从不接受检验 | 用诊断逻辑检验规则本身，保持张力避免过早妥协。 |
+
+
+## ⚡️ 30 秒极简接入
+
+不需要安装环境，不需要修改代码。大模型本身就是最强的 Markdown 解析器。
+
+### 对于 Codex 用户
+```bash
 mkdir -p "$HOME/.codex/skills"
 ln -s "$(pwd)/skills/open-agent-harness" "$HOME/.codex/skills/open-agent-harness"
-
-# Claude
-mkdir -p "$HOME/.claude/skills"
-ln -s "$(pwd)/skills/open-agent-harness" "$HOME/.claude/skills/open-agent-harness"
 ```
 
-装完之后跟 agent 说一句：
+### 对于 Claude / Windsurf / Cursor 等任何支持文档上下文的工具
+你可以直接将本项目的 `skills/open-agent-harness` 目录作为 Rule 或 Context 挂载到你的工作区。
+或者在对话开始时直接声明：
+> *"请加载 open-agent-harness 协议，并使用它来设计和验证接下来的工作流。"*
 
-```
-Use $open-agent-harness to design and validate this workflow.
-```
+## 🏗 架构分层
 
-没有依赖，没有构建步骤，两行命令搞定。
+这套协议在设计上分为三层，确保绝对的可移植与隐私安全：
 
-## 它解决什么问题
+- `core/`：**核心协议层**，完全公开、可移植的高维方法论。
+- `adapters/`：**适配器层**，用于对接不同的 AI 运行时、验证器和知识图谱。
+- `private/`：**隐私边界**（已 gitignore），存放你真实的运营 SOP、API Key 和私有知识，永远不会泄漏。
 
-大部分 agent 框架都在优化生成质量。这个项目优化的是**验收质量**。
+## 🌟 为什么这个项目值得你的 Star？
 
-当 agent 宣称任务完成时，这套协议会追问：证据在哪？一个可观测的产物、一次独立的验证、一轮收敛到稳定的 review——而不是 agent 自己写的"任务总结"。"agent 说它行"和"它真的行"之间的差距，远比你想象的大。
+如果你只是想要一堆代码片段，市面上有无数的工具包。
+但如果你希望你的 AI 真正具备**工程化思维、交付纪律和反思能力**，阻止它在复杂的任务流中失控或自我欺骗，这套协议将是你不可或缺的底层护城河。
 
-## 包含的协议
+**点一个 Star ⭐，保存这份《AI 交付法典》，终止你的 Agent 幻觉。**
 
-安装目录 `skills/open-agent-harness/` 里有七个协议：
+---
 
-| 协议 | 防止什么 |
-|---|---|
-| **协作校准** | Agent 上来先甩你一堆问题，还没干活先做了二十道问卷 |
-| **现实锚定交付** | 说"完成了"但拿不出用户可见的证据 |
-| **收敛式审查** | 只过一遍就收工，第二遍能抓到的问题全漏掉 |
-| **泛化分诊** | 靠一个恰好跑通的案例就写成永久规则 |
-| **元递归设计** | 设计方法论的方法论本身从不接受检验 |
-| **复利工程** | 踩过的坑、攒下的经验，对话一结束就全丢了 |
-| **通用 SOP 引擎** | 没有状态模型和异常恢复的脆弱操作清单 |
-
-## 架构
-
-```
-core/               可移植的协议定义
-adapters/            运行时、验证器、领域工具的桥接层
-skills/              可安装的 skill 包（日常使用这个）
-packs/               公开的示例包，用于测试
-private/             本地扩展区（已 gitignore）
-templates/           项目级 AGENTS.md / CLAUDE.md 模板
-```
-
-设计上分三层：**核心协议**是公开可移植的方法；**适配器**做运行时对接；**私有包**放你自己的凭据、知识图谱和真实工作流，永远不会进仓库。方法开源，私有配置留在本地。
-
-## 支持的 Agent 运行时
-
-Harness 不绑定特定运行时。
-
-- **Codex** — 安装 skill，可选配合 `templates/user-level/AGENTS.md`
-- **Claude** — 安装 skill，可选配合 `templates/user-level/CLAUDE.md`
-- **其他** — 能读 Markdown 就能用
-
-## 发布前检查
-
-```sh
-bash tools/release-audit.sh
-bash skills/open-agent-harness/scripts/release-audit.sh
-```
-
-这两个脚本会在你推送前检查是否意外泄露了私有内容。
-
-## 参与贡献
-
-见 [CONTRIBUTING.md](CONTRIBUTING.md) 和 [SECURITY.md](SECURITY.md)。唯一的硬性规则：不要把私有知识、凭据或真实运营 SOP 提交到公开仓库。
-
-## 许可证
-
-[Apache License 2.0](LICENSE)
+*参与贡献请阅读 [CONTRIBUTING.md](CONTRIBUTING.md)。唯一的硬性规则：永远不要把私有知识、凭据或真实运营 SOP 提交到公开仓库。*
